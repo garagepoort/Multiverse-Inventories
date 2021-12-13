@@ -1,24 +1,19 @@
 package com.onarandombox.multiverseinventories.share;
 
 import com.dumptruckman.minecraft.util.Logging;
-import com.onarandombox.multiverseinventories.MultiverseInventories;
-import com.onarandombox.multiverseinventories.WorldGroup;
 import com.onarandombox.multiverseinventories.DataStrings;
+import com.onarandombox.multiverseinventories.MultiverseInventories;
 import com.onarandombox.multiverseinventories.PlayerStats;
+import com.onarandombox.multiverseinventories.WorldGroup;
 import com.onarandombox.multiverseinventories.profile.PlayerProfile;
 import com.onarandombox.multiverseinventories.util.MinecraftTools;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
-import org.jetbrains.annotations.NotNull;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,7 +23,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * The Sharables class is where all the default Sharable instances are located as constants as well as a factory class
@@ -85,77 +79,77 @@ public final class Sharables implements Shares {
      */
     public static final Sharable<ItemStack[]> INVENTORY = new Sharable.Builder<ItemStack[]>("inventory_contents",
             ItemStack[].class, new SharableHandler<ItemStack[]>() {
-                @Override
-                public void updateProfile(PlayerProfile profile, Player player) {
-                    profile.set(INVENTORY, player.getInventory().getContents());
-                }
+        @Override
+        public void updateProfile(PlayerProfile profile, Player player) {
+            profile.set(INVENTORY, player.getInventory().getContents());
+        }
 
-                @Override
-                public boolean updatePlayer(Player player, PlayerProfile profile) {
-                    ItemStack[] value = profile.get(INVENTORY);
-                    if (value == null) {
-                        player.getInventory().setContents(MinecraftTools.fillWithAir(
-                                new ItemStack[PlayerStats.INVENTORY_SIZE]));
-                        player.updateInventory();
-                        return false;
-                    }
-                    player.getInventory().setContents(value);
-                    player.updateInventory();
-                    return true;
-                }
-            }).serializer(new ProfileEntry(false, DataStrings.PLAYER_INVENTORY_CONTENTS),
-                    new InventorySerializer(PlayerStats.INVENTORY_SIZE)).build();
+        @Override
+        public boolean updatePlayer(Player player, PlayerProfile profile) {
+            ItemStack[] value = profile.get(INVENTORY);
+            if (value == null) {
+                player.getInventory().setContents(MinecraftTools.fillWithAir(
+                        new ItemStack[PlayerStats.INVENTORY_SIZE]));
+                player.updateInventory();
+                return false;
+            }
+            player.getInventory().setContents(value);
+            player.updateInventory();
+            return true;
+        }
+    }).serializer(new ProfileEntry(false, DataStrings.PLAYER_INVENTORY_CONTENTS),
+            new InventorySerializer(PlayerStats.INVENTORY_SIZE)).build();
 
     /**
      * Sharing Armor.
      */
     public static final Sharable<ItemStack[]> ARMOR = new Sharable.Builder<ItemStack[]>("armor_contents",
             ItemStack[].class, new SharableHandler<ItemStack[]>() {
-                @Override
-                public void updateProfile(PlayerProfile profile, Player player) {
-                    profile.set(ARMOR, player.getInventory().getArmorContents());
-                }
+        @Override
+        public void updateProfile(PlayerProfile profile, Player player) {
+            profile.set(ARMOR, player.getInventory().getArmorContents());
+        }
 
-                @Override
-                public boolean updatePlayer(Player player, PlayerProfile profile) {
-                    ItemStack[] value = profile.get(ARMOR);
-                    if (value == null) {
-                        player.getInventory().setArmorContents(MinecraftTools.fillWithAir(
-                                new ItemStack[PlayerStats.ARMOR_SIZE]));
-                        player.updateInventory();
-                        return false;
-                    }
-                    player.getInventory().setArmorContents(value);
-                    player.updateInventory();
-                    return true;
-                }
-            }).serializer(new ProfileEntry(false, DataStrings.PLAYER_ARMOR_CONTENTS),
-                    new InventorySerializer(PlayerStats.ARMOR_SIZE)).altName("armor").build();
+        @Override
+        public boolean updatePlayer(Player player, PlayerProfile profile) {
+            ItemStack[] value = profile.get(ARMOR);
+            if (value == null) {
+                player.getInventory().setArmorContents(MinecraftTools.fillWithAir(
+                        new ItemStack[PlayerStats.ARMOR_SIZE]));
+                player.updateInventory();
+                return false;
+            }
+            player.getInventory().setArmorContents(value);
+            player.updateInventory();
+            return true;
+        }
+    }).serializer(new ProfileEntry(false, DataStrings.PLAYER_ARMOR_CONTENTS),
+            new InventorySerializer(PlayerStats.ARMOR_SIZE)).altName("armor").build();
 
     /**
      * Sharing Offhand.
      */
     public static final Sharable<ItemStack> OFF_HAND = new Sharable.Builder<ItemStack>("off_hand",
             ItemStack.class, new SharableHandler<ItemStack>() {
-                @Override
-                public void updateProfile(PlayerProfile profile, Player player) {
-                    profile.set(OFF_HAND, player.getInventory().getItemInOffHand());
-                }
+        @Override
+        public void updateProfile(PlayerProfile profile, Player player) {
+            profile.set(OFF_HAND, player.getInventory().getItemInOffHand());
+        }
 
-                @Override
-                public boolean updatePlayer(Player player, PlayerProfile profile) {
-                    ItemStack value = profile.get(OFF_HAND);
-                    if (value == null) {
-                        player.getInventory().setItemInOffHand(new ItemStack(Material.AIR));
-                        player.updateInventory();
-                        return false;
-                    }
-                    player.getInventory().setItemInOffHand(value);
-                    player.updateInventory();
-                    return true;
-                }
-            }).serializer(new ProfileEntry(false, DataStrings.PLAYER_OFF_HAND_ITEM),
-                    new DefaultSerializer<>(ItemStack.class)).altName("shield").build();
+        @Override
+        public boolean updatePlayer(Player player, PlayerProfile profile) {
+            ItemStack value = profile.get(OFF_HAND);
+            if (value == null) {
+                player.getInventory().setItemInOffHand(new ItemStack(Material.AIR));
+                player.updateInventory();
+                return false;
+            }
+            player.getInventory().setItemInOffHand(value);
+            player.updateInventory();
+            return true;
+        }
+    }).serializer(new ProfileEntry(false, DataStrings.PLAYER_OFF_HAND_ITEM),
+            new DefaultSerializer<>(ItemStack.class)).altName("shield").build();
 
     /**
      * Sharing Health.
@@ -480,13 +474,13 @@ public final class Sharables implements Shares {
     /**
      * Sharing Bed Spawn.
      */
-    public static final Sharable<Location> BED_SPAWN = new Sharable.Builder<Location>("bed_spawn", Location.class,
+    public static final Sharable<Location> BED_SPAWN = new Sharable.Builder<>("bed_spawn", Location.class,
             new SharableHandler<Location>() {
                 @Override
                 public void updateProfile(PlayerProfile profile, Player player) {
                     Location bedSpawnLocation = null;
                     try {
-                        bedSpawnLocation = player.getBedSpawnLocation();
+                        bedSpawnLocation = player.getPotentialBedLocation();
                     } catch (NullPointerException e) {
                         // TODO this is a temporary fix for the bug occurring in 1.16.X CB/Spigot/Paper
                         StackTraceElement[] stackTrace = e.getStackTrace();
@@ -798,16 +792,15 @@ public final class Sharables implements Shares {
      *                   they do not start with "-" indicating they are normal shares.
      * @return A new instance of {@link Shares} containing all shares non-negated in the given list.
      */
-    public static Shares fromList(List sharesList) {
+    public static Shares fromList(List<String> sharesList) {
         Shares shares = noneOf();
-        for (Object shareStringObj : sharesList) {
-            String shareString = shareStringObj.toString();
-            Shares sharables = Sharables.lookup(shareString);
+        for (String shareStringObj : sharesList) {
+            Shares sharables = Sharables.lookup(shareStringObj);
             if (sharables != null) {
                 shares.mergeShares(sharables);
             } else {
-                if (shareString.equals("*") || shareString.equalsIgnoreCase("all")
-                        || shareString.equalsIgnoreCase("everything")) {
+                if (shareStringObj.equals("*") || shareStringObj.equalsIgnoreCase("all")
+                        || shareStringObj.equalsIgnoreCase("everything")) {
                     shares = allOf();
                     break;
                 }
