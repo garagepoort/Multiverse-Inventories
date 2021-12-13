@@ -530,9 +530,11 @@ class FlatFileProfileDataSource implements ProfileDataSource {
     @Deprecated
     // TODO replace for UUID
     public void updateLastWorld(String playerName, String worldName) {
-        GlobalProfile globalProfile = getGlobalProfile(playerName);
-        globalProfile.setLastWorld(worldName);
-        updateGlobalProfile(globalProfile);
+        Bukkit.getScheduler().runTaskAsynchronously(MultiverseInventories.getPlugin(), () -> {
+            GlobalProfile globalProfile = getGlobalProfile(playerName);
+            globalProfile.setLastWorld(worldName);
+            updateGlobalProfile(globalProfile);
+        });
     }
 
     @Override
